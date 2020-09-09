@@ -52,11 +52,17 @@ export class ApiService {
     return this.http.post(`http://localhost:8080/api/updateTripsAngular`, body);
   }
   
-  
   getTripId(id){
     return this.http.get(`${this.BASE_URL}/getAllTrips-angular?id=${id}`)
   }
 
+  editUserbyId(user){
+    return this.http.post<User>(`${this.BASE_URL}/updateProfileAngular`,user)
+  }
+
+  register(registerRequest){
+    return this.http.post(`${this.BASE_URL}/createNewAccount`,registerRequest)
+  }
 
  
 }

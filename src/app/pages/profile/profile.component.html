@@ -37,9 +37,9 @@
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
                         <label for="firstName"><b>First Name</b></label>
-                        <input type="text" class="form-control form-control-user" id="firstName"
-                               name="user.firstName" aria-describedby="emailHelp" placeholder="Enter First Name"
-                               [(ngModel)]="user.firstName">
+                        <input type="text" class="form-control form-control-user"
+                        name="user.firstName" 
+                        [(ngModel)]="user.firstName">
                         <label for="lastName" style="margin-top:10px"><b>Last Name</b></label>
                         <input type="text" class="form-control form-control-user" id="lastName"
                                name="user.lastName" aria-describedby="emailHelp" placeholder="Enter Last Name"
@@ -48,7 +48,7 @@
                         <input type="text" class="form-control form-control-user" id="mobileNumber"
                                name="user.mobileNumber" aria-describedby="emailHelp" placeholder="Enter Phone NO"
                                [(ngModel)]="user.mobileNumber">
-                        <button href="submit" class="btn btn-primary btn-user btn-block" style="margin-top:30px">
+                        <button (click)="updateUser(user.id)" class="btn btn-primary btn-user btn-block" style="margin-top:30px">
                             Update Profile
                         </button>
                     </div>
@@ -68,9 +68,9 @@
                                [(ngModel)]="user.email">
                         <label for="password" style="margin-top:10px"><b>Password</b></label>
                         <input type="password" class="form-control form-control-user" id="password"
-                               aria-describedby="emailHelp" placeholder="Enter Password"
-                               [(ngModel)]="user.password">
-                        <button href="submit" class="btn btn-primary btn-user btn-block" style="margin-top:30px">
+                               aria-describedby="emailHelp" placeholder="Enter Password" name="password"
+                               [(ngModel)]="password">
+                        <button (click)="updateUser(user.id)" class="btn btn-primary btn-user btn-block" style="margin-top:30px">
                             Change Password
                         </button>
                     </div>

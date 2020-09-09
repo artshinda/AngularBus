@@ -1,74 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 
 <head>
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="fixed-left">
+  <!-- Begin page -->
+  <div class="accountbg"></div>
+  <div class="wrapper-page">
 
-<!-- Begin page -->
-<div class="accountbg"></div>
-<div class="wrapper-page">
     <div class="card">
-        <div class="card-body">
+      <div class="card-body">
 
-            <h3 class="text-center m-0">
-                <a href="index.html" class="logo logo-admin"><img src="../../assets/images/logo.png" height="30" alt="logo"></a>
-            </h3>
+        <h3 class="text-center m-0">
+          <a href="index.html" class="logo logo-admin"><img src="../assets/images/logo.png" height="30" alt="logo"></a>
+        </h3>
 
-            <div class="p-3">
-                <form class="user" id="formRegister" action="#" method="post">
-                    <div class="form-group row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="text" class="form-control form-control-user" id="inputFirstName"
-                                   placeholder="First Name">
-                        </div>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control form-control-user" id="inputLastName"
-                                   placeholder="Last Name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control form-control-user" id="inputEmail"
-                               placeholder="Email Address">
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="password" class="form-control form-control-user"
-                                   id="inputPassword" placeholder="Password">
-                        </div>
-                        <div class="col-sm-6">
-                            <input type="password" class="form-control form-control-user"
-                                   id="inputRePassword" placeholder="Repeat Password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputAgencyName"
-                               placeholder="Agency Name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputAgencyDetail"
-                               placeholder="Agency Details">
-                    </div>
+        <div class="p-3">
+          <h4 class="font-18 m-b-5 text-center">Welcome Back !</h4>
+          <p class="text-muted text-center">Sign in to continue to Admiria.</p>
 
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputContactNumber"
-                               placeholder="Contact Number">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        Register Account
-                    </button>
-
-                    <div class="form-group m-t-10 mb-0 row">
-                        <div class="col-12 m-t-20">
-                            <p class="font-14 text-muted mb-0">By registering you agree to the Admiria <a href="#">Terms of Use</a></p>
-                        </div>
-                    </div>
-                </form>
+          <form class="user" id="formRegis" method="post">
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" id="inputFirstName"
+                           placeholder="First Name" [(ngModel)]="firstName" name="firstName">
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" id="inputLastName"
+                           placeholder="Last Name" [(ngModel)]="lastName" name="lastName">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control form-control-user" id="inputEmail"
+                       placeholder="Email Address"  [(ngModel)]="email" name="email">
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="password" class="form-control form-control-user"
+                           id="inputPassword" placeholder="Password" [(ngModel)]="password" name="password">
+                </div>
+                <div class="col-sm-6">
+                    <input type="password" class="form-control form-control-user"
+                           id="inputRePassword" placeholder="Repeat Password" [(ngModel)]="password2" name="password2">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control form-control-user" id="inputAgencyName"
+                       placeholder="Agency Name" [(ngModel)]="agencyName" name="agencyName">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control form-control-user" id="inputAgencyDetail"
+                       placeholder="Agency Details" [(ngModel)]="agencyDetail" name="agencyDetail">
             </div>
 
+            <div class="form-group">
+                <input type="text" class="form-control form-control-user" id="inputContactNumber"
+                       placeholder="Contact Number" [(ngModel)]="contactNumber" name="contactNumber">
+            </div>
+
+            <div class="form-group row m-t-20">
+              <button (click)="register()" class="btn btn-primary btn-user btn-block">
+                Register
+              </button>
+            </div>
+
+            <div class="form-group m-t-10 mb-0 row">
+              <div class="col-12 m-t-20">
+                <a href="recover" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
     <div class="m-t-40 text-center">
@@ -76,8 +81,7 @@
         <p class="text-white">©Copyright by Baim 2020. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
     </div>
 
-</div>
-
+  </div>
 </body>
 
 </html>

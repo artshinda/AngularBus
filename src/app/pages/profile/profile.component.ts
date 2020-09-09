@@ -11,13 +11,19 @@ import { User } from '../../entity/User'
 })
 export class ProfileComponent implements OnInit {
 
-  name: string;
-  details: string;
+  id: String;
+  email: String;
+  password: String;
+  firstName: String;
+  lastName: String;
+  mobileNumber: String;
+  createdDate: Date;
+  updatedDate: Date;
   user: User;
 
   constructor(
     private route: ActivatedRoute,
-    private myRouter: Router,
+    private myRoute: Router,
     public auth: AuthService,
     private apiService: ApiService
   ) { }
@@ -34,6 +40,28 @@ export class ProfileComponent implements OnInit {
         console.log('user', user);
         this.user = user;
     });
+  }
+
+  updateUser(id){
+    // console.log(this.auth.decodeJWT());
+    let jwt=this.auth.decodeJWT(); 
+    console.log("user",this.user.id,this.user.firstName, this.user.lastName,this.password);
+      this.apiService.editUserbyId(
+        { 
+          id: this.user.id,
+          firstName:this.user.firstName, 
+          lastName:this.user.lastName,
+          email:this.user.email,
+          password:this.password,
+          mobileNumber:this.user.mobileNumber
+        })
+        .subscribe((user)=>{
+        this.apiService.getUserbyId(jwt.userId).subscribe((user)=>{
+          // console.log('user',user)
+          alert("Profil Berhasil Di Update")
+          this.user=user
+        })
+    })
   }
 
 }
