@@ -24,14 +24,15 @@
                             "src/assets"
                         ],
                         "styles": [
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "./node_modules/jquery/dist/jquery.min.js",
                             "node_modules/@swimlane/ngx-datatable/index.css",
                             "node_modules/@swimlane/ngx-datatable/themes/material.css",
                             "node_modules/@swimlane/ngx-datatable/assets/icons.css",
                             "src/assets/css/bootstrap.min.css",
                             "src/assets/plugins/datatables/dataTables.bootstrap4.min.css",
-                            "src/assets/plugins/datatables/buttons.bootstrap4.min.css",
 
+                            "src/assets/plugins/datatables/buttons.bootstrap4.min.css",
                             "src/assets/plugins/datatables/responsive.bootstrap4.min.css",
                             "src/assets/css/icons.css",
                             "src/assets/css/style.css",

@@ -64,5 +64,19 @@ export class ApiService {
     return this.http.post(`${this.BASE_URL}/createNewAccount`,registerRequest)
   }
 
- 
+  postDeleteTrips(id) {
+    return this.http.post(`http://localhost:8080/api/deleteTrips-angular`, id);
+  }
+  
+  postDeleteBus(id) {
+    return this.http.post(`http://localhost:8080/api/deleteBus-angular`, id);
+  }
+  
+  addTrip(trip){
+    return this.http.post(`${this.BASE_URL}/addTripAngular`,trip)
+  }
+
+  addBus(bus){
+    return this.http.post(`${this.BASE_URL}/addBusAngular`,bus)
+  }
 }

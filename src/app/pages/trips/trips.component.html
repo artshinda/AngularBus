@@ -44,14 +44,70 @@
                     <!--                    </div>-->
 
                     <!--</editor-fold>-->
+
+                    <!-- Modal Add Trip -->
+                    <ng-template #mymodal let-modal>
+                      <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title">Add Trip</h4>
+                          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group row">
+                              <label for="example-text-input" class="col-sm-2 col-form-label">Bus Name</label>
+                              <div class="col-sm-10">
+                                <select class="form-control" [(ngModel)]="bus">
+                                  <option value="1" disabled>Select Bus</option>
+                                  <option  *ngFor="let bus of dataDropdownBus" value={{bus.id}}>{{bus.code}}</option>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <label class="col-sm-2 col-form-label">Source Stop </label>
+                              <div class="col-sm-10">
+                                <select class="form-control" [(ngModel)]="stop">
+                                  <option value="1" disabled>Select Stop</option>
+                                  <option *ngFor="let stop of dataDropdownStop" value={{stop.id}}>{{stop.name}}</option>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <label for="example-date-input" class="col-sm-2 col-form-label">Destination Stop</label>
+                              <div class="col-sm-10">
+                                <select class="form-control" [(ngModel)]="stopDestination">
+                                  <option value="1" disabled>Select Stop</option>
+                                  <option  *ngFor="let stop of dataDropdownStop" value={{stop.id}}>{{stop.name}}</option>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="example-date-input" class="col-sm-2 col-form-label">Duration</label>
+                            <div class="col-sm-10">
+                              <input class="form-control" type="text" placeholder="Enter Duration" id="example-text-input"  [(ngModel)]="duration">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="example-date-input" class="col-sm-2 col-form-label">Fare</label>
+                          <div class="col-sm-10">
+                            <input class="form-control" type="text" placeholder="Enter Fare" id="example-text-input" [(ngModel)]="fare">
+                          </div>
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Close</button>
+                          <button type="button" class="btn btn-outline-dark" (click)="saveTrip()">Save</button>
+                      </div>
+                  </ng-template>
+
                     <div class="card-body">
                         <div>                            
                             <div class="form-group row">
-                                <button style="margin-left: 10px;" class="btn btn-outline-dark waves-effect waves-light" for="example-text-input">
+                                <button style="margin-left: 10px;" class="btn btn-outline-dark waves-effect waves-light" for="example-text-input" (click)="open(mymodal)">
                                     <i class="mdi mdi-plus-circle" style="font-size:14px;">ADD TRIP</i>
                                 </button>
                                 <div class="col-sm-4">
-                                    <input class="form-control" type="text" placeholder="Enter Name Item" id="example-text-input" (keyup)="updateFilter($event)"> <i class="mdi mdi-magnify noti-icon"></i>
+                                    <input class="form-control" type="text" placeholder="Search Something?" id="example-text-input" (keyup)="updateFilter($event)">
                                 </div>
                             </div>
                             <ngx-datatable
@@ -81,7 +137,9 @@
                                     [value]="value"
                                     >
 
-                                    <option *ngFor="let bus of dataDropdownBus" [(ngModel)]="bus.code">
+                                    <option 
+                                       *ngFor="let bus of dataDropdownBus" 
+                                       [selected]="bus.code == value">
                                         {{bus.code}}
                                     </option>
                                 </select>
@@ -97,13 +155,19 @@
                                   >
                                     {{ value }}
                                   </span>
-                                  <input
-                                    autofocus
-                                    (blur)="updateValue($event, 'stop', rowIndex)"
+                                  <select
                                     *ngIf="editing[rowIndex + '-stop']"
-                                    type="text"
+                                    (blur)="editing[rowIndex + '-stop'] = false"
+                                    (change)="updateValue($event, 'stop', rowIndex)"
                                     [value]="value"
-                                  />
+                                    >
+
+                                    <option 
+                                       *ngFor="let stop of dataDropdownStop" 
+                                       [selected]="stop.name == value">
+                                        {{stop.name}}
+                                    </option>
+                                </select>
                                 </ng-template>
                               </ngx-datatable-column>
                               <ngx-datatable-column name="stopDestination">
@@ -115,13 +179,19 @@
                                   >
                                     {{ value }}
                                   </span>
-                                  <input
-                                    autofocus
-                                    (blur)="updateValue($event, 'stopDestination', rowIndex)"
+                                  <select
                                     *ngIf="editing[rowIndex + '-stopDestination']"
-                                    type="text"
+                                    (blur)="editing[rowIndex + '-stopDestination'] = false"
+                                    (change)="updateValue($event, 'stopDestination', rowIndex)"
                                     [value]="value"
-                                  />
+                                    >
+
+                                    <option 
+                                       *ngFor="let stop of dataDropdownStop" 
+                                       [selected]="stop.name == value">
+                                        {{stop.name}}
+                                    </option>
+                                </select>
                                 </ng-template>
                               </ngx-datatable-column>
                               <ngx-datatable-column name="journeyTime">
@@ -160,6 +230,21 @@
                                   />
                                 </ng-template>
                               </ngx-datatable-column>
+                              <ngx-datatable-column
+                              name="Actions"
+                              sortable="false"
+                              prop="id"
+                            >
+                              <ng-template
+                                let-row="row"
+                                let-value="value"
+                                ngx-datatable-cell-template
+                              >
+                                <button class="mdi mdi-delete" (click)="deleteTrips(value)">
+                                  
+                                </button>
+                              </ng-template>
+                            </ngx-datatable-column>
                             </ngx-datatable>
                           </div>
                     </div>

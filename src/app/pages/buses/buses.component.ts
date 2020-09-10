@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/utils/api.service';
 import { AuthService } from 'src/app/auth.service';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-buses',
@@ -10,24 +11,39 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 })
 
 export class BusesComponent implements OnInit {
+  code:String;
+  capacity:number;
+  make:String;
   temp: any;
   editing = {};
   rows : any = [];
   mydatatable: any;
-
   ColumnMode = ColumnMode;
 
-  constructor(private api:ApiService,private auth: AuthService) {
+  constructor(
+    private api:ApiService,
+    private auth: AuthService,
+    private modalService: NgbModal
+    ) {
 
   }
 
   ngOnInit(): void {
+    this.fetchData();
+  }
+
+  fetchData() {
     let { agencyId } = this.auth.decodeJWT();
     this.api.getBusbyId(agencyId).subscribe((d) => {
       this.temp = d;
-      console.log(d)
+      console.log(d);
       this.rows = d;
-    })
+    });
+  }
+
+  open(content) {
+    console.log('content', content);
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   updateValue(event, cell, rowIndex) {
@@ -56,4 +72,24 @@ export class BusesComponent implements OnInit {
     this.mydatatable.offset = 0;
   }
 
+  deleteBus(id) {
+    console.log("e", id);
+    this.api.postDeleteBus(id).subscribe((d) => {
+      this.fetchData();
+      alert('Data Berhasil Di Delete')
+    });
+  }
+
+  saveBus(){
+    let { agencyId } = this.auth.decodeJWT();
+    console.log('add bus', this.code,this.capacity,this.make,agencyId)
+    this.api.addBus({make:this.make,code:this.code,capacity:this.capacity,agencyId:agencyId}).subscribe((bus)=>{ 
+      alert("Data Bus Berhasil Bertambah");      // this.itemEdit.expiredDate = (new Date(this.dpick.year, this.dpick.month-1, this.dpick.day )).getTime() / 1000
+      this.api.getBusbyId(agencyId).subscribe((d) => {
+        this.temp = d;
+        console.log(d)
+        this.rows = d;
+      })
+    });
+  }
 }
