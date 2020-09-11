@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/utils/api.service';
 import { AuthService } from 'src/app/auth.service';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-buses',
@@ -19,6 +19,7 @@ export class BusesComponent implements OnInit {
   rows : any = [];
   mydatatable: any;
   ColumnMode = ColumnMode;
+  modalReference: NgbModalRef;
 
   constructor(
     private api:ApiService,
@@ -43,7 +44,7 @@ export class BusesComponent implements OnInit {
 
   open(content) {
     console.log('content', content);
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalReference = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   updateValue(event, cell, rowIndex) {
@@ -84,11 +85,13 @@ export class BusesComponent implements OnInit {
     let { agencyId } = this.auth.decodeJWT();
     console.log('add bus', this.code,this.capacity,this.make,agencyId)
     this.api.addBus({make:this.make,code:this.code,capacity:this.capacity,agencyId:agencyId}).subscribe((bus)=>{ 
-      alert("Data Bus Berhasil Bertambah");      // this.itemEdit.expiredDate = (new Date(this.dpick.year, this.dpick.month-1, this.dpick.day )).getTime() / 1000
+          // this.itemEdit.expiredDate = (new Date(this.dpick.year, this.dpick.month-1, this.dpick.day )).getTime() / 1000
       this.api.getBusbyId(agencyId).subscribe((d) => {
         this.temp = d;
         console.log(d)
         this.rows = d;
+        alert("Data Bus Berhasil Bertambah");  
+        this.modalReference.close();
       })
     });
   }

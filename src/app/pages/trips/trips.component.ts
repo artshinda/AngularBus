@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgModuleRef } from '@angular/core';
 import { ApiService } from 'src/app/utils/api.service';
 import { AuthService } from 'src/app/auth.service';
 import { ColumnMode, DatatableComponent, id } from '@swimlane/ngx-datatable';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -25,6 +25,7 @@ export class TripsComponent implements OnInit {
   dataDropdownStop: any;
   mydatatable: any;
   pureData: any;
+  modalReference: NgbModalRef;
 
   ColumnMode = ColumnMode;
 
@@ -38,7 +39,7 @@ export class TripsComponent implements OnInit {
 
   open(content) {
     console.log('content', content);
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalReference = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   ngOnInit(): void {
@@ -159,6 +160,7 @@ export class TripsComponent implements OnInit {
     this.api.addTrip({busId:this.bus,sourceStopId:this.stop,destStopId:this.stopDestination,journeyTime:this.duration,fare:this.fare,agencyId:agencyId}).subscribe((d) => {
       this.fetchData();
       alert("Data Berhasil Bertambah")
+      this.modalReference.close();
     });
   }
 
